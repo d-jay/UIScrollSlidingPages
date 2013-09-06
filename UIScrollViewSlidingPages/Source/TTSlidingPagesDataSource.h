@@ -38,6 +38,6 @@
 -(TTSlidingPage *)pageForSlidingPagesViewController:(TTScrollSlidingPagesController*)source atIndex:(int)index;
 
 @optional
-- (void)pageChanagedForSlidingPagesViewController:(TTScrollSlidingPagesController *)source;
+- (void)pageChangedForSlidingPagesViewController:(TTScrollSlidingPagesController *)source;
 
 @end

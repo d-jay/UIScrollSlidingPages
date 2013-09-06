@@ -101,7 +101,7 @@
 //    }
 //}
 
-- (void)pageChanagedForSlidingPagesViewController:(TTScrollSlidingPagesController *)source{
+- (void)pageChangedForSlidingPagesViewController:(TTScrollSlidingPagesController *)source{
     NSLog(@"pageIndex -> %d", [source displayedPageIndex]);
 }
 

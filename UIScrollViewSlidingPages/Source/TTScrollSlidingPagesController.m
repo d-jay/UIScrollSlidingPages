@@ -376,8 +376,8 @@
     
     
     
-    if ([_dataSource respondsToSelector:@selector(pageChanagedForSlidingPagesViewController:)]) {
-        [_dataSource pageChanagedForSlidingPagesViewController:self];
+    if ([_dataSource respondsToSelector:@selector(pageChangedForSlidingPagesViewController:)]) {
+        [_dataSource pageChangedForSlidingPagesViewController:self];
     }
     
     
