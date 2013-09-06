@@ -97,7 +97,7 @@
 
 
 -(void)viewDidLayoutSubviews{
-    NSLog(@"========== viewDidLayoutSubviews ==========");
+    //NSLog(@"========== viewDidLayoutSubviews ==========");
     //this will get called when the screen rotates, at which point we need to fix the frames of all the subviews to be the new correct x position horizontally. The autolayout mask will automatically change the width for us.
 
 //    [self updateTitleConainerWrapperShadowPath];
@@ -278,7 +278,7 @@
 -(void)assembleTitlesAndPages{
     if (self.dataSource == nil) return;
     
-    NSLog(@"========== assembleTitlesAndPages ==========");
+    //NSLog(@"========== assembleTitlesAndPages ==========");
     
     [self removeAllSubviews];
     
@@ -393,7 +393,7 @@
  @param animated Whether the scroll should be animated to move along to the page (YES) or just directly scroll to the page (NO)
  */
 -(void)scrollToIndex:(int)index{
-    NSLog(@"========== scrollToIndex -> %d ==========", index);
+    //NSLog(@"========== scrollToIndex -> %d ==========", index);
     [pageContainer setContentOffset: CGPointMake([self pagePositionXForIndex:index],0) animated:YES];
 }
 
@@ -402,7 +402,7 @@
 }
 
 - (void)jumpToIndex:(int)index{
-    NSLog(@"========== jumpToIndex -> %d ==========", index);
+    //NSLog(@"========== jumpToIndex -> %d ==========", index);
     [self willJumpToIndex:index];
     [pageContainer setContentOffset: CGPointMake([self pagePositionXForIndex:index],0) animated:NO];
     [titleContainer setContentOffset: CGPointMake([self titlePositionXForIndex:index], 0) animated:NO];
@@ -430,7 +430,7 @@
 //}
 
 - (void)didScrollToIndex:(int)index{
-    NSLog(@"didScrollToIndex -> %d indexBefore->%d", index, indexBefore);
+    //NSLog(@"didScrollToIndex -> %d indexBefore->%d", index, indexBefore);
     indexBefore = [self displayedIndexCurrent];
     
     [self updateTitlesColor];
@@ -438,12 +438,12 @@
 }
 
 - (void)willJumpToIndex:(int)index{
-    NSLog(@"willJumpToIndex -> %d indexBefore->%d", index, indexBefore);
+    //NSLog(@"willJumpToIndex -> %d indexBefore->%d", index, indexBefore);
     indexBefore = [self displayedIndexCurrent];
 }
 
 - (void)didJumpToIndex:(int)index{
-    NSLog(@"didJumpToIndex -> %d indexBefore->%d", index, indexBefore);
+    //NSLog(@"didJumpToIndex -> %d indexBefore->%d", index, indexBefore);
     indexBefore = [self displayedIndexCurrent];
     
     [self updateTitlesColor];
@@ -571,7 +571,7 @@
 }
 
 - (void)updateTitlesAndPagesPosition:(int)startIndex{
-    NSLog(@"========== updateTitlesAndPagesPosition =========");
+    //NSLog(@"========== updateTitlesAndPagesPosition =========");
     
     TTSlidingNode *node = [nodes objectAtIndex:startIndex];
     //    NSLog(@"pageIndexAtFirstIndex -> %d",[self pageIndexAtFirstIndex]);
@@ -756,7 +756,7 @@
 
 - (void)pageControlDidChangeIndex:(int)index{
     int targetIdx = index;
-    NSLog(@"========== pageControlDidChangeIndex targetIdx -> %d ==========", targetIdx);
+    //NSLog(@"========== pageControlDidChangeIndex targetIdx -> %d ==========", targetIdx);
     if ([self displayedIndexCurrent] != targetIdx){
         [self scrollToIndex:targetIdx];
     }
