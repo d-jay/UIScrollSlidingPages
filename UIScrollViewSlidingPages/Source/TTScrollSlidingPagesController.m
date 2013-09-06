@@ -101,7 +101,7 @@
     //this will get called when the screen rotates, at which point we need to fix the frames of all the subviews to be the new correct x position horizontally. The autolayout mask will automatically change the width for us.
 
 //    [self updateTitleConainerWrapperShadowPath];
-    [self updateTitlesAndPagesPosition];
+    [self updateTitlesAndPagesPosition:0];
     [self updateScrollContentSize];
     [self jumpToDisplayedIndexTarget];
 }
@@ -370,7 +370,7 @@
     }
     
     if ([self loop]) {
-        [self updateTitlesAndPagesPosition];
+        [self updateTitlesAndPagesPosition:[self pageIndexAtFirstIndex]];
         [self jumpToDisplayedIndexTarget];
     }
     
@@ -472,8 +472,6 @@
         double scaleAmount = 1-(distanceFromPageOrigin/zoomSpeed);
         if (scaleAmount < minimumZoom ){scaleAmount = minimumZoom;}
         
-        NSLog(@"%f",scaleAmount);
-        
         currentView.transform = CGAffineTransformScale(CGAffineTransformIdentity, scaleAmount, scaleAmount);
         
         //nextView zooms in as scroll left
@@ -572,10 +570,10 @@
     scrollView.delegate = self;
 }
 
-- (void)updateTitlesAndPagesPosition{
+- (void)updateTitlesAndPagesPosition:(int)startIndex{
     NSLog(@"========== updateTitlesAndPagesPosition =========");
     
-    TTSlidingNode *node = [nodes objectAtIndex:[self pageIndexAtFirstIndex]];
+    TTSlidingNode *node = [nodes objectAtIndex:startIndex];
     //    NSLog(@"pageIndexAtFirstIndex -> %d",[self pageIndexAtFirstIndex]);
     for (int i=0; i<[self numOfPages]; i++) {
         UIView *titleV = [node titleView];
