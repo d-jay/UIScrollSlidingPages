@@ -47,9 +47,9 @@
     //slider.disableUIPageControl = YES;
     //slider.initialPageNumber = 1;
     //slider.pagingEnabled = NO;
-    //slider.zoomOutAnimationDisabled = YES;
-    self.slider.loop = NO;
-    self.slider.pageControlMode = YES;
+    //self.slider.zoomOutAnimationDisabled = YES;
+    //self.slider.loop = YES;
+    //self.slider.pageControlMode = YES;
     //set the datasource.
     self.slider.dataSource = self;
     

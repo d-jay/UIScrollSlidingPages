@@ -176,7 +176,7 @@
     pageContainer.directionalLockEnabled = YES;
     pageContainer.delegate = self; //move the top scroller proportionally as you drag the bottom.
     pageContainer.alwaysBounceVertical = NO;
-    [pageContainer setBackgroundColor:[UIColor whiteColor]];
+    [pageContainer setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:pageContainer];
 }
 
@@ -456,6 +456,39 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     int currentIndex = [self displayedIndexCurrent];
 
+    if (!self.zoomOutAnimationDisabled){
+        //Do a zoom out effect on the current view and next view depending on the amount scrolled
+        double minimumZoom = 0.93;
+        double zoomSpeed = 1000;//increase this number to slow down the zoom
+        UIView *currentView = [pageContainer.subviews objectAtIndex:currentIndex];
+        UIView *nextView;
+        if (currentIndex < [pageContainer.subviews count]-1){
+            nextView = [pageContainer.subviews objectAtIndex:currentIndex+1];
+        }
+        
+        //currentView zooms out as scroll left
+        int distanceFromPageOrigin = pageContainer.contentOffset.x - [self pagePositionXForIndex:currentIndex]; //find out how far the scroll is away from the start of the page, and use this to adjust the transform of the currentView
+        if (distanceFromPageOrigin < 0) {distanceFromPageOrigin = 0;}
+        double scaleAmount = 1-(distanceFromPageOrigin/zoomSpeed);
+        if (scaleAmount < minimumZoom ){scaleAmount = minimumZoom;}
+        
+        NSLog(@"%f",scaleAmount);
+        
+        currentView.transform = CGAffineTransformScale(CGAffineTransformIdentity, scaleAmount, scaleAmount);
+        
+        //nextView zooms in as scroll left
+        if (nextView != nil){
+            //find out how far the scroll is away from the start of the next page, and use this to adjust the transform of the nextView
+            distanceFromPageOrigin = (pageContainer.contentOffset.x - [self pagePositionXForIndex:currentIndex+1]) * -1;//multiply by minus 1 to get the distance to the next page (because otherwise the result would be -300 for example, as in 300 away from the next page)
+            if (distanceFromPageOrigin < 0) {distanceFromPageOrigin = 0;}
+            scaleAmount = 1-(distanceFromPageOrigin/zoomSpeed);
+            if (scaleAmount < minimumZoom ){scaleAmount = minimumZoom;}
+            nextView.transform = CGAffineTransformScale(CGAffineTransformIdentity, scaleAmount, scaleAmount);
+        }
+    }
+    
+                                                                                                              
+    
     if (scrollView == titleContainer){
         //translate the top scroll to the bottom scroll
         
@@ -541,7 +574,6 @@
 
 - (void)updateTitlesAndPagesPosition{
     NSLog(@"========== updateTitlesAndPagesPosition =========");
-    //        view.transform = CGAffineTransformIdentity;
     
     TTSlidingNode *node = [nodes objectAtIndex:[self pageIndexAtFirstIndex]];
     //    NSLog(@"pageIndexAtFirstIndex -> %d",[self pageIndexAtFirstIndex]);
@@ -560,6 +592,8 @@
         pageFrame.origin = pageOrigin;
         pageFrame.size = [self pageSize];
         pageV.frame = pageFrame;
+        pageV.transform = CGAffineTransformIdentity;
+
         
         //        NSLog(@"displayIndex:%d pageIndex:%d titleX:%f   pageX:%f",i,[node pageIndex], titleOrigin.x, pageOrigin.x);
         
