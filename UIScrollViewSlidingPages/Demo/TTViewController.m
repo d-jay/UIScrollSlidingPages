@@ -45,7 +45,7 @@
     //slider.titleScrollerBackgroundColour = [UIColor darkGrayColor];
     //slider.disableTitleScrollerShadow = YES;
     //slider.disableUIPageControl = YES;
-    //slider.initialPageNumber = 1;
+    //self.slider.initialPageNumber = 1;
     //slider.pagingEnabled = NO;
     //self.slider.zoomOutAnimationDisabled = YES;
     //self.slider.loop = YES;
@@ -58,6 +58,11 @@
     [self.view addSubview:self.slider.view];
     [self addChildViewController:self.slider];
 
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self.slider scrollToIndex:2 animated:NO];
 }
 
 

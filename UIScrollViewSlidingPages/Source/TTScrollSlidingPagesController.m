@@ -292,6 +292,9 @@
     }
     
     [self connectNodes];
+//    int initialPage = self.initialPageNumber;
+//    //scroll to the initialpage
+//    [self scrollToIndex:initialPage animated:NO];
 }
 
 #pragma mark - 
@@ -386,15 +389,21 @@
 
 #pragma mark - scroll actions
 
+-(void)scrollToIndex:(int)index {
+    [self scrollToIndex:index animated:YES];
+}
+
 /**
  Scrolls the bottom scorller (content scroller) to a particular page number.
  
  @param page The page number to scroll to.
  @param animated Whether the scroll should be animated to move along to the page (YES) or just directly scroll to the page (NO)
  */
--(void)scrollToIndex:(int)index{
+-(void)scrollToIndex:(int)index animated:(BOOL)animated {
     //NSLog(@"========== scrollToIndex -> %d ==========", index);
-    [pageContainer setContentOffset: CGPointMake([self pagePositionXForIndex:index],0) animated:YES];
+    [pageContainer setContentOffset: CGPointMake([self pagePositionXForIndex:index],0) animated:animated];
+    if (!animated) // normally the scroll delegate methods take care of updating the header
+        [self dispatchPageChanged];
 }
 
 - (void)jumpToDisplayedIndexTarget{
