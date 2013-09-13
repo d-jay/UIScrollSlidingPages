@@ -587,6 +587,7 @@
     for (int i=0; i<[self numOfPages]; i++) {
         UIView *titleV = [node titleView];
         UIView *pageV = [node pageView];
+        pageV.transform = CGAffineTransformIdentity;
         CGPoint titleOrigin = CGPointMake([self titleWidth]*i, 0);
         CGRect titleFrame;
         CGPoint pageOrigin = CGPointMake([self pageWidth]*i, 0);
@@ -599,7 +600,6 @@
         pageFrame.origin = pageOrigin;
         pageFrame.size = [self pageSize];
         pageV.frame = pageFrame;
-        pageV.transform = CGAffineTransformIdentity;
 
         
         //        NSLog(@"displayIndex:%d pageIndex:%d titleX:%f   pageX:%f",i,[node pageIndex], titleOrigin.x, pageOrigin.x);
