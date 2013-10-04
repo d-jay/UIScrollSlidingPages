@@ -37,11 +37,12 @@
 
 
 @property (nonatomic, assign) int displayedPageIndex; // Default is 0.
-@property (nonatomic, strong) id<TTSlidingPagesDataSource> dataSource;
+@property (nonatomic, weak) id<TTSlidingPagesDataSource> dataSource;
 
 //styles
 @property (nonatomic, assign) BOOL loop;    //loop title & page
 @property (nonatomic, assign) BOOL pageControlMode;
+@property (nonatomic, assign) BOOL titleAsImageMode;
 
 /** @property zoomOutAnimationDisabled
  * @brief Whether the "zoom out" effect that happens as you scroll from page to page should be disabled. Default is NO.
@@ -49,6 +50,7 @@
 @property (nonatomic) bool zoomOutAnimationDisabled;
 
 @property (nonatomic, strong) UIFont *titleFont;
+@property (nonatomic, strong) UIFont *titleFontSelected;
 
 /** @property titleScrollerBackgroundColour
  * @brief The colour of the text in the top scroller

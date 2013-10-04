@@ -45,6 +45,8 @@
     UIScrollView *pageContainer;
     TTPageControl *pageControl;
     CGFloat pageControlHeight;
+    
+    TTTrangleView *trangleView;
 }
 
 @end
@@ -61,21 +63,22 @@
         viewDidLoadHasBeenCalled = NO;
         //set defaults
         self.titleScrollerHeight = 50;
-        self.titleScrollerItemWidth = 50;
+        self.titleScrollerItemWidth = 50*2;
         self.zoomOutAnimationDisabled = NO;
-        self.titleFont = [UIFont boldSystemFontOfSize:16];
+        self.titleFont = [UIFont fontWithName:@"Verdana" size:14.0];
+        self.titleFontSelected = [UIFont fontWithName:@"Verdana-Bold" size:14.0];
         self.loop = NO;
        
-        self.titleColor = [UIColor colorWithRed:177.0/255.0 green:167.0/255.0 blue:159.0/255.0 alpha:1.0];
+        self.titleColor = [UIColor colorWithWhite:170.0/255.0 alpha:1.0];
         self.titleColorSelected = [UIColor colorWithRed:219.0/255.0 green:64.0/255.0 blue:34.0/255.0 alpha:1.0];
         
         self.titleBackgroundColor = [UIColor whiteColor];
-        self.titleBackgroundColorSelected = [UIColor colorWithWhite:247.0/255.0 alpha:1.0];
+        self.titleBackgroundColorSelected = [UIColor whiteColor];
         
 //        self.titleScrollerBackgroundColor = [UIColor colorWithWhite:238.0/255.0 alpha:1.0];
         
         self.arrowWidth = 16.0;
-        self.arrowHeight = 4.0;
+        self.arrowHeight = 5.0;
         
         pageControlHeight = 20.0;
     }
@@ -103,6 +106,7 @@
 //    [self updateTitleConainerWrapperShadowPath];
     [self updateTitlesAndPagesPosition:0];
     [self updateScrollContentSize];
+    [self updateTrangleView];
     [self jumpToDisplayedIndexTarget];
 }
 
@@ -129,12 +133,15 @@
 }
 
 - (void)assembleArrowViewWithYPosition:(CGFloat)yPosition{
-    CGRect frame = CGRectMake(0, yPosition, self.view.frame.size.width, [self arrowHeight]);
-    TTTrangleView *v = [[TTTrangleView alloc] initWithFrame:frame];
-    [v setTrangleW:[self arrowWidth]];
-    [v setTrangleH:[self arrowHeight]];
-    [v setTrangleColor:[self titleBackgroundColorSelected]];
-    [[self view] addSubview:v];
+    if (trangleView != nil) return;
+    CGRect frame = CGRectMake(0, yPosition - [self arrowHeight], self.view.frame.size.width, [self arrowHeight]);
+    trangleView = [[TTTrangleView alloc] initWithFrame:frame];
+//    NSLog(@"trangle width -> %f", self.view.frame.size.width);
+    [trangleView setTrangleW:[self arrowWidth]];
+    [trangleView setTrangleH:[self arrowHeight]];
+    [trangleView setTitleW:[self titleWidth]];
+    [trangleView setTrangleColor:[self titleBackgroundColorSelected]];
+    [[self view] addSubview:trangleView];
 }
 
 - (void)assemblePageControlWithYPosition:(CGFloat)yPosition{
@@ -233,16 +240,40 @@
     TTSlidingPageTitle *title =  [[TTSlidingPageTitle alloc] initWithHeaderText:titleText];
     if (title == nil) return [[UIView alloc] init];
     if (![title isKindOfClass:[TTSlidingPageTitle class]]) return [[UIView alloc] init];
-    
+    UIView *titleView;
+    if (self.titleAsImageMode) {
+        titleView = [self assembleTitleViewAsImageForTitle:title];
+    }else{
+        titleView = [self assembleTitleViewAsLabelForTitle:title];
+    }
+    [titleContainer addSubview:titleView];
+    return titleView;
+}
+
+- (UIView *)assembleTitleViewAsLabelForTitle:(TTSlidingPageTitle *)title{
     UILabel *label = [[UILabel alloc] init];
     label.text = title.headerText;
     label.textAlignment = NSTextAlignmentCenter;
+    label.adjustsFontSizeToFitWidth = YES;
     label.font = self.titleFont;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = self.titleColor;
     
-    [titleContainer addSubview:label];
     return label;
+}
+
+- (UIView *)assembleTitleViewAsImageForTitle:(TTSlidingPageTitle *)title{
+    UIImageView *imgV = [[UIImageView alloc] init];
+    UIImage *img = [UIImage imageNamed:title.headerText];
+    [imgV setContentMode:UIViewContentModeScaleAspectFit];
+    [imgV setImage:img];
+    
+//    CALayer *l = [imgV layer];
+//    [l setBorderWidth:1.0];
+//    [l setBorderColor:[UIColor blackColor].CGColor];
+//    [l setCornerRadius:5.0];
+    
+    return imgV;
 }
 
 - (UIView *)assemblePageViewForIndex:(int)index{
@@ -442,7 +473,7 @@
     //NSLog(@"didScrollToIndex -> %d indexBefore->%d", index, indexBefore);
     indexBefore = [self displayedIndexCurrent];
     
-    [self updateTitlesColor];
+    [self updateTitles];
     [self updatePageControl];
 }
 
@@ -455,7 +486,7 @@
     //NSLog(@"didJumpToIndex -> %d indexBefore->%d", index, indexBefore);
     indexBefore = [self displayedIndexCurrent];
     
-    [self updateTitlesColor];
+    [self updateTitles];
     [self updatePageControl];
 }
 
@@ -573,6 +604,13 @@
 //    titleContainerWrapper.layer.rasterizationScale = [UIScreen mainScreen].scale;
 //}
 
+- (void)updateTrangleView{
+    CGRect frame = trangleView.frame;
+    frame.size = CGSizeMake(self.view.frame.size.width, frame.size.height);
+    [trangleView setFrame:frame];
+    [trangleView setNeedsDisplay];
+}
+
 - (void)updateContentOffset:(CGPoint)contentOffset forScrollView:(UIScrollView *)scrollView{
     scrollView.delegate = nil;
     scrollView.contentOffset = contentOffset;
@@ -623,18 +661,43 @@
     pageContainer.contentSize = [self contentSizeOfPageContainer];
 }
 
-- (void)updateTitlesColor{
+
+- (void)updateTitles{
+    if (self.titleAsImageMode) {
+        [self updateTitlesAlpha];
+    }else{
+        [self updateTitlesTextStyle];
+    }
+}
+
+- (void)updateTitlesAlpha{
+    int pageIndex = [self displayedPageIndex];
+    for (int i=0; i<[nodes count]; i++) {
+        TTSlidingNode *node = [nodes objectAtIndex:i];
+        UIImageView *displayedTitleView = (UIImageView *)[node titleView];
+        CGFloat alpha = 0.3;
+        
+        if (pageIndex == i) alpha = 1.0;
+        
+        [displayedTitleView setAlpha:alpha];
+    }
+}
+
+- (void)updateTitlesTextStyle{
     int pageIndex = [self displayedPageIndex];
     for (int i=0; i<[nodes count]; i++) {
         TTSlidingNode *node = [nodes objectAtIndex:i];
         UILabel *displayedTitleLabel = (UILabel *)[node titleView];
         UIColor *c = [self titleColor];
+        UIFont *f = [self titleFont];
         
         if (pageIndex == i) {
             c = [self titleColorSelected];
+            f = [self titleFontSelected];
         }
         
         [displayedTitleLabel setTextColor:c];
+        [displayedTitleLabel setFont:f];
     }
 }
 
