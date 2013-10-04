@@ -76,11 +76,15 @@
 
 @property (nonatomic, strong) UIColor *titleBackgroundColorSelected;
 
+@property (nonatomic, strong) UIColor *pageContainerBackgroundColor;
+
 @property (nonatomic, assign) CGFloat arrowWidth;
 
 @property (nonatomic, assign) CGFloat arrowHeight;
 
 @property (nonatomic, strong) NSArray *titles;
+
+@property (nonatomic, strong) Class triangleClass;
 
 /** @property initialPageNumber
  * @brief Sets the scroller to scroll to a specific page initially

@@ -13,6 +13,7 @@
 #import "TTSlidingPage.h"
 #import "TTSlidingPageTitle.h"
 #import "TTBlankViewController.h"
+#import "TTTriangleDownView.h"
 
 @interface TTViewController ()
     @property (strong, nonatomic) TTScrollSlidingPagesController *slider;
@@ -35,6 +36,8 @@
     
     //initial setup of the TTScrollSlidingPagesController. 
     self.slider = [[TTScrollSlidingPagesController alloc] init];
+    //self.slider.triangleClass = [TTTriangleDownView class];
+    
     self.slider.titles = [NSArray arrayWithObjects:@"AD",@"AE",@"AF",@"AG",@"US",@"CN",@"TW",@"FR",@"ES",@"HK",@"JP", nil];
 
     

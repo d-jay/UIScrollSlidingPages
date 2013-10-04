@@ -80,6 +80,10 @@
         self.arrowWidth = 16.0;
         self.arrowHeight = 5.0;
         
+        self.pageContainerBackgroundColor = [UIColor blackColor];
+        
+        self.triangleClass = [TTTrangleView class];
+        
         pageControlHeight = 20.0;
     }
     return self;
@@ -134,9 +138,8 @@
 
 - (void)assembleArrowViewWithYPosition:(CGFloat)yPosition{
     if (trangleView != nil) return;
-    CGRect frame = CGRectMake(0, yPosition - [self arrowHeight], self.view.frame.size.width, [self arrowHeight]);
-    trangleView = [[TTTrangleView alloc] initWithFrame:frame];
-//    NSLog(@"trangle width -> %f", self.view.frame.size.width);
+    trangleView = [[self.triangleClass alloc] init];
+    [trangleView frameForArrowHeight:[self arrowHeight] yPosition:yPosition size:self.view.frame.size];
     [trangleView setTrangleW:[self arrowWidth]];
     [trangleView setTrangleH:[self arrowHeight]];
     [trangleView setTitleW:[self titleWidth]];
@@ -183,7 +186,7 @@
     pageContainer.directionalLockEnabled = YES;
     pageContainer.delegate = self; //move the top scroller proportionally as you drag the bottom.
     pageContainer.alwaysBounceVertical = NO;
-    [pageContainer setBackgroundColor:[UIColor blackColor]];
+    [pageContainer setBackgroundColor:self.pageContainerBackgroundColor];
     [self.view addSubview:pageContainer];
 }
 

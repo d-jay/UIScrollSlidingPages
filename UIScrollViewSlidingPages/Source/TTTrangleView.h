@@ -15,4 +15,6 @@
 @property (nonatomic, assign) CGFloat titleW;
 @property (nonatomic, strong) UIColor *trangleColor;
 
+- (void)frameForArrowHeight:(CGFloat)arrowHeight yPosition:(CGFloat)yPosition size:(CGSize)size;
+
 @end

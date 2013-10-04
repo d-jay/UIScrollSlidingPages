@@ -281,6 +281,7 @@
 		9F9B9BA117037C0B00CD45B4 /* TTScrollSlidingPagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9B9BA017037C0B00CD45B4 /* TTScrollSlidingPagesController.m */; };
 		9F9B9BA51703836D00CD45B4 /* TTSlidingPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F9B9BA41703836D00CD45B4 /* TTSlidingPage.m */; };
 		9FFDC5CC1722EEA1002A5689 /* TTScrollViewWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFDC5CB1722EEA1002A5689 /* TTScrollViewWrapper.m */; };
+		B44D0A5317FE9C2E00C640CD /* TTTriangleDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = B44D0A5217FE9C2E00C640CD /* TTTriangleDownView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -577,6 +578,8 @@
 		9F9B9BA7170387BE00CD45B4 /* TTSlidingPagesDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTSlidingPagesDataSource.h; sourceTree = "<group>"; };
 		9FFDC5CA1722EEA1002A5689 /* TTScrollViewWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTScrollViewWrapper.h; sourceTree = "<group>"; };
 		9FFDC5CB1722EEA1002A5689 /* TTScrollViewWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTScrollViewWrapper.m; sourceTree = "<group>"; };
+		B44D0A5117FE9C2E00C640CD /* TTTriangleDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTriangleDownView.h; sourceTree = "<group>"; };
+		B44D0A5217FE9C2E00C640CD /* TTTriangleDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTriangleDownView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -941,6 +944,8 @@
 				4A82043A17C2020500FC6D04 /* TTSlidingNode.m */,
 				4A87B37717CC332D00172957 /* TTTrangleView.h */,
 				4A87B37817CC332D00172957 /* TTTrangleView.m */,
+				B44D0A5117FE9C2E00C640CD /* TTTriangleDownView.h */,
+				B44D0A5217FE9C2E00C640CD /* TTTriangleDownView.m */,
 				4A881F1A17D6BC4C00F3A28A /* TTPageControl.h */,
 				4A881F1B17D6BC4C00F3A28A /* TTPageControl.m */,
 				4A881F1D17D6C86000F3A28A /* TTPageDot.h */,
@@ -1312,6 +1317,7 @@
 				9F7024C916DBF7E20003B5FA /* TabOneViewController.m in Sources */,
 				9F7024CE16DBF7F80003B5FA /* TabTwoViewController.m in Sources */,
 				9F9B9B9B1703758A00CD45B4 /* TTViewController.m in Sources */,
+				B44D0A5317FE9C2E00C640CD /* TTTriangleDownView.m in Sources */,
 				9F9B9BA117037C0B00CD45B4 /* TTScrollSlidingPagesController.m in Sources */,
 				9F9B9BA51703836D00CD45B4 /* TTSlidingPage.m in Sources */,
 				9F936B55170650EF001622D8 /* TTSlidingPageTitle.m in Sources */,

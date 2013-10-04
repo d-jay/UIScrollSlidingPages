@@ -19,6 +19,11 @@
     return self;
 }
 
+- (void)frameForArrowHeight:(CGFloat)arrowHeight yPosition:(CGFloat)yPosition size:(CGSize)size
+{
+    CGRect frame = CGRectMake(0, yPosition - arrowHeight, size.width, arrowHeight);
+    self.frame = frame;
+}
 
 - (void)willMoveToSuperview:(UIView *)newSuperview{
     if (newSuperview) {
