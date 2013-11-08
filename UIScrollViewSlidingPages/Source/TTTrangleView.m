@@ -40,7 +40,7 @@
 {
     [super drawRect:rect];
     
-    NSLog(@"draw rect w %f h %f", rect.size.width, rect.size.height);
+//    NSLog(@"draw rect w %f h %f", rect.size.width, rect.size.height);
     
     // Drawing code
     CGContextRef ctx = UIGraphicsGetCurrentContext();

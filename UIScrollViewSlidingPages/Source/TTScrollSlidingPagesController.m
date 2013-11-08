@@ -108,7 +108,13 @@
     //this will get called when the screen rotates, at which point we need to fix the frames of all the subviews to be the new correct x position horizontally. The autolayout mask will automatically change the width for us.
 
 //    [self updateTitleConainerWrapperShadowPath];
-    [self updateTitlesAndPagesPosition:0];
+    
+    if (self.loop){
+        [self updateTitlesAndPagesPosition:[self pageIndexAtFirstIndex]];
+    } else{
+        [self updateTitlesAndPagesPosition:0];
+    }
+//    [self updateTitlesTextStyle];
     [self updateScrollContentSize];
     [self updateTrangleView];
     [self jumpToDisplayedIndexTarget];
@@ -163,7 +169,7 @@
 
 - (void)assembleTopScrollViewWithYPosition:(CGFloat)yPosition{
     titleContainer = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.titleWidth, self.titleHeight)];
-    titleContainer.center = CGPointMake(self.view.center.x, titleContainer.center.y); //center it horizontally
+    titleContainer.center = CGPointMake(self.view.frame.size.width/2,  self.titleHeight/2); //center it horizontally
     titleContainer.pagingEnabled = YES;
     titleContainer.clipsToBounds = NO;
     titleContainer.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -174,6 +180,7 @@
     titleContainer.pagingEnabled = YES;
     titleContainer.delegate = self; //move the bottom scroller proportionally as you drag the top.
     [titleContainer setBackgroundColor:[self titleBackgroundColorSelected]];
+//    [titleContainer setBackgroundColor:[UIColor blueColor]];
     
 }
 
@@ -261,6 +268,9 @@
     label.font = self.titleFont;
     label.backgroundColor = [UIColor clearColor];
     label.textColor = self.titleColor;
+//    label.layer.borderColor = [UIColor grayColor].CGColor;
+//    label.layer.borderWidth = 1.0;
+//    label.backgroundColor = [UIColor grayColor];
     
     return label;
 }
@@ -441,6 +451,7 @@
 }
 
 - (void)jumpToDisplayedIndexTarget{
+    //NSLog(@"displayedIndexTarget -> %d", [self displayedIndexTarget]);
     [self jumpToIndex:[self displayedIndexTarget]];
 }
 
@@ -688,6 +699,7 @@
 
 - (void)updateTitlesTextStyle{
     int pageIndex = [self displayedPageIndex];
+//    NSLog(@"updateTitlesTextStyle pageIndex -> %d", [self displayedPageIndex]);
     for (int i=0; i<[nodes count]; i++) {
         TTSlidingNode *node = [nodes objectAtIndex:i];
         UILabel *displayedTitleLabel = (UILabel *)[node titleView];
@@ -697,6 +709,7 @@
         if (pageIndex == i) {
             c = [self titleColorSelected];
             f = [self titleFontSelected];
+//            NSLog(@"displayedTitleLabel text -> %@", displayedTitleLabel.text);
         }
         
         [displayedTitleLabel setTextColor:c];
